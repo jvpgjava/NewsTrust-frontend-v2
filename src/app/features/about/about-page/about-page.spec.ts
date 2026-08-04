@@ -23,9 +23,4 @@ describe('AboutPage', () => {
     expect(text).toContain('Verificação Cruzada (V)');
     expect(text).toContain('Padrão de Disseminação (D)');
   });
-
-  it('lists every team member and the advisor with a LinkedIn link', () => {
-    const links: HTMLAnchorElement[] = Array.from(fixture.nativeElement.querySelectorAll('a[href*="linkedin.com"]'));
-    expect(links.length).toBe(6);
-  });
 });

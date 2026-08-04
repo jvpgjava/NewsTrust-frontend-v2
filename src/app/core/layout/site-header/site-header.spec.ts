@@ -26,6 +26,7 @@ describe('SiteHeader', () => {
     expect(text).toContain('Análise de Notícias');
     expect(text).toContain('Rede de Confiança');
     expect(text).toContain('Sobre o Sistema');
+    expect(text).toContain('Equipe');
     expect(text).toContain('Fale Conosco');
   });
 

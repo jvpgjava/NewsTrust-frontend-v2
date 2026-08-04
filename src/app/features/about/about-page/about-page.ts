@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
 
-interface TeamMember {
-  name: string;
-  linkedIn: string;
-}
-
 interface Pillar {
   num: string;
   titulo: string;
@@ -67,17 +62,4 @@ export class AboutPage {
       descricao: 'Interface intuitiva e resultados claros, independentemente de conhecimento técnico.',
     },
   ];
-
-  protected readonly team: TeamMember[] = [
-    { name: 'João Vitor Prestes Grando', linkedIn: 'https://www.linkedin.com/in/jvprestessg' },
-    { name: 'Évilyn Flores Francisco', linkedIn: 'https://www.linkedin.com/in/evilyn-flores' },
-    { name: 'Guilherme Lima Sarmento', linkedIn: 'https://www.linkedin.com/in/guilherme-sarmento-972665394' },
-    { name: 'Vinicius Martinez da Silva', linkedIn: 'https://www.linkedin.com/in/vinícius-martinez-76857334a' },
-    { name: 'Rafael Ramos da Luz', linkedIn: 'https://www.linkedin.com/in/rafael-ramos-da-luz-69772b164' },
-  ];
-
-  protected readonly advisor: TeamMember = {
-    name: 'Arthur Marques de Oliveira',
-    linkedIn: 'https://www.linkedin.com/in/arthur-marques-de-oliveira-a09072110',
-  };
 }
