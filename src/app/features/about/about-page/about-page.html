@@ -53,37 +53,4 @@
       }
     </ul>
   </div>
-
-  <!-- Equipe -->
-  <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-    <h2 class="text-xl font-bold text-slate-900">Desenvolvido e Pensado Por</h2>
-    <div class="mt-6 space-y-3">
-      @for (member of team; track member.name) {
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-slate-700">{{ member.name }}</span>
-          <a
-            [href]="member.linkedIn"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
-          >
-            Sobre
-          </a>
-        </div>
-      }
-    </div>
-
-    <h2 class="mt-10 text-xl font-bold text-slate-900">Orientado Por</h2>
-    <div class="mt-6 flex items-center gap-4">
-      <span class="text-sm text-slate-700">{{ advisor.name }}</span>
-      <a
-        [href]="advisor.linkedIn"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
-      >
-        Sobre
-      </a>
-    </div>
-  </div>
 </div>

@@ -14,6 +14,7 @@ const MENU_ITEMS: MenuItem[] = [
   { path: '/analysis', label: 'Análise de Notícias', icon: 'search' },
   { path: '/trust-graph', label: 'Rede de Confiança', icon: 'network' },
   { path: '/about', label: 'Sobre o Sistema', icon: 'info' },
+  { path: '/team', label: 'Equipe', icon: 'info' },
   { path: '/contact', label: 'Fale Conosco', icon: 'message-circle' },
 ];
 
