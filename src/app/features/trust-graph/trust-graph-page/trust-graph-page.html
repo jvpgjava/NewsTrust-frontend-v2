@@ -1,0 +1,156 @@
+<div class="mx-auto max-w-6xl space-y-4 px-4 py-6 sm:space-y-6 sm:px-6 sm:py-8 lg:px-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl">Rede de Confiança</h1>
+      <p class="mt-1 text-sm text-slate-500 sm:mt-2 sm:text-base lg:text-lg">
+        Visualização interativa da rede de confiança entre fontes e notícias
+      </p>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-slate-500">
+      <span class="h-2 w-2 rounded-full" [class.bg-emerald-500]="connected()" [class.bg-slate-300]="!connected()"></span>
+      {{ connected() ? 'Ao vivo' : 'Reconectando…' }}
+    </div>
+  </div>
+
+  <div class="rounded-xl bg-white p-3 shadow-sm sm:p-4">
+    <div class="flex gap-2" role="tablist" aria-label="Rede exibida">
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="activeNetwork() === 'sources'"
+        (click)="switchNetwork('sources')"
+        class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all sm:px-4"
+        [class]="
+          activeNetwork() === 'sources'
+            ? 'bg-brand/10 text-brand border border-brand/20'
+            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+        "
+      >
+        <app-icon name="globe" [size]="18" />
+        Grafo de Fontes
+      </button>
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="activeNetwork() === 'news'"
+        (click)="switchNetwork('news')"
+        class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all sm:px-4"
+        [class]="
+          activeNetwork() === 'news'
+            ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+        "
+      >
+        <app-icon name="file-text" [size]="18" />
+        Grafo de Notícias
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+      <div class="flex items-center">
+        <app-icon [name]="activeNetwork() === 'sources' ? 'globe' : 'file-text'" [size]="26" class="text-brand" />
+        <div class="ml-3">
+          <p class="text-xs uppercase tracking-wide text-slate-500">Nós</p>
+          <p class="mt-1 text-2xl font-bold text-slate-900">{{ nodeCount() }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+      <div class="flex items-center">
+        <app-icon name="zap" [size]="26" class="text-emerald-600" />
+        <div class="ml-3">
+          <p class="text-xs uppercase tracking-wide text-slate-500">Conexões</p>
+          <p class="mt-1 text-2xl font-bold text-slate-900">{{ edgeCount() }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+      <div class="flex items-center">
+        <app-icon name="award" [size]="26" class="text-violet-600" />
+        <div class="ml-3">
+          <p class="text-xs uppercase tracking-wide text-slate-500">Credibilidade média</p>
+          <p class="mt-1 text-2xl font-bold text-slate-900">{{ averageCredibility() | number: '1.0-1' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner label="Carregando grafo…" />
+  }
+
+  @if (errorMessage(); as message) {
+    <app-error-banner [message]="message" (retry)="retry()" />
+  }
+
+  @if (graphData(); as data) {
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="lg:col-span-2 rounded-xl bg-white p-4 shadow-sm sm:p-6">
+        <div class="mb-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+          <h3 class="text-base font-semibold text-slate-900 sm:text-lg">
+            {{ activeNetwork() === 'sources' ? 'Grafo da Rede de Fontes' : 'Grafo da Rede de Notícias' }}
+          </h3>
+          <div class="flex items-center gap-1 sm:gap-2">
+            <button
+              type="button"
+              (click)="canvas.zoomIn()"
+              title="Zoom In"
+              class="rounded-lg p-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 sm:p-2"
+            >
+              <app-icon name="zoom-in" [size]="16" />
+            </button>
+            <span class="text-xs font-medium text-slate-500 sm:text-sm">
+              {{ (canvas.zoomLevel() * 100) | number: '1.0-0' }}%
+            </span>
+            <button
+              type="button"
+              (click)="canvas.zoomOut()"
+              title="Zoom Out"
+              class="rounded-lg p-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 sm:p-2"
+            >
+              <app-icon name="zoom-out" [size]="16" />
+            </button>
+            <button
+              type="button"
+              (click)="canvas.resetZoom()"
+              title="Reset Zoom"
+              class="rounded-lg p-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 sm:p-2"
+            >
+              <app-icon name="more-vertical" [size]="16" />
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3 flex flex-wrap items-center gap-2 text-xs sm:mb-4 sm:gap-4 sm:text-sm">
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full" style="background-color: var(--color-risk-low)"></span>
+            <span>Baixo risco</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full" style="background-color: var(--color-risk-attention)"></span>
+            <span>Atenção</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full" style="background-color: var(--color-risk-high)"></span>
+            <span>Alto risco</span>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
+          <app-graph-canvas #canvas [data]="data" (nodeClick)="onNodeSelected($event)" />
+        </div>
+
+        <p class="mt-3 text-xs text-slate-500 sm:mt-4 sm:text-sm">
+          <strong>Instruções:</strong> use a roda do mouse para zoom, clique e arraste para mover o grafo. Clique e
+          arraste os nós para reorganizar. Clique em um nó para ver detalhes.
+        </p>
+      </div>
+
+      @if (selectedNode(); as node) {
+        <app-node-detail-panel [node]="node" [detail]="selectedNodeDetail()" (close)="closeDetail()" />
+      }
+    </div>
+  }
+</div>

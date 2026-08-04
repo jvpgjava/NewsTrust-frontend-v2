@@ -1,0 +1,50 @@
+<div class="overflow-hidden rounded-xl border border-slate-200 shadow-lg">
+  <div class="flex items-center justify-between border-b border-slate-200 bg-gradient-to-r from-emerald-50 to-blue-50 px-4 py-3 sm:px-6 sm:py-4">
+    <h3 class="flex items-center text-base font-semibold text-slate-900 sm:text-lg">
+      <app-icon name="check-circle" [size]="18" class="mr-2 text-emerald-600" />
+      Resultado da Análise
+    </h3>
+    <app-risk-badge [riskLevel]="result().score.riskLevel" />
+  </div>
+
+  <div class="space-y-4 p-4 sm:space-y-6 sm:p-6">
+    <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
+      <span class="text-xs font-medium text-slate-500 sm:text-sm">Domínio</span>
+      <p class="mt-2 truncate text-lg font-bold text-slate-900 sm:text-xl lg:text-2xl">{{ result().domain }}</p>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
+      <span class="text-xs font-medium text-slate-500 sm:text-sm">Score de credibilidade</span>
+      <p class="mt-2 text-3xl font-bold tabular-nums text-slate-900 sm:mt-3 sm:text-4xl">
+        {{ result().score.value | number: '1.0-1' }}<span class="text-lg text-slate-400 sm:text-xl">/100</span>
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-4 rounded-lg bg-indigo-50 px-4 py-3 text-sm">
+      <div>
+        <span class="text-slate-500">Reputação:</span>
+        <span class="ml-1 font-semibold text-slate-700">{{ result().reputationScore | number: '1.0-1' }}/100</span>
+      </div>
+      <div>
+        <span class="text-slate-500">Categoria:</span>
+        <span class="ml-1 font-semibold capitalize text-slate-700">{{ result().reputationCategory }}</span>
+      </div>
+    </div>
+
+    @if (result().reputationSignals.length > 0) {
+      <div class="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4">
+        <h4 class="mb-2 flex items-center text-sm font-semibold text-slate-900">
+          <app-icon name="shield" [size]="16" class="mr-2 text-indigo-600" />
+          Sinais de reputação
+        </h4>
+        <ul class="space-y-1">
+          @for (signal of result().reputationSignals; track signal) {
+            <li class="text-sm text-slate-600">• {{ signal }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    <app-credibility-breakdown [factors]="result().score.factors" [reasons]="result().score.reasons" />
+  </div>
+</div>

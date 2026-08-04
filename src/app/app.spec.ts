@@ -1,23 +1,30 @@
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+
 import { App } from './app';
+import { routes } from './app.routes';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter(routes)],
     }).compileComponents();
   });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('renders the NewsTrust brand and primary navigation', async () => {
     const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, newstrust-frontend');
+
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('NewsTrust');
+    expect(text).toContain('Análise');
+    expect(text).toContain('Rede de Confiança');
   });
 });

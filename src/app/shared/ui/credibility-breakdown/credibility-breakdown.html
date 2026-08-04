@@ -1,0 +1,39 @@
+<div class="space-y-5">
+  <div>
+    <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+      Decomposição do score
+    </h3>
+    <ul class="space-y-3">
+      @for (row of rows(); track row.label) {
+        <li>
+          <div class="mb-1 flex items-baseline justify-between text-sm">
+            <span class="font-medium text-slate-700">{{ row.label }}</span>
+            <span class="tabular-nums text-slate-500">{{ row.value | number: '1.0-1' }}/100</span>
+          </div>
+          <div class="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+            <div class="h-full rounded-full bg-brand" [style.width.%]="row.value"></div>
+          </div>
+          @if (row.note) {
+            <p class="mt-1 text-xs italic text-slate-400">{{ row.note }}</p>
+          }
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (reasons().length > 0) {
+    <div>
+      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Razões que justificam o score
+      </h3>
+      <ul class="space-y-2">
+        @for (reason of reasons(); track reason.factor + reason.description) {
+          <li class="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-700">
+            <span class="font-semibold">{{ factorLabel(reason.factor) }}:</span>
+            {{ reason.description }}
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

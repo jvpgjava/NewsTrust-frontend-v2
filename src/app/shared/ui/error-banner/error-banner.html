@@ -1,0 +1,14 @@
+<div
+  class="flex items-start justify-between gap-4 rounded-lg border px-4 py-3 text-sm"
+  style="background-color: var(--color-risk-high-bg); color: var(--color-risk-high-fg); border-color: var(--color-risk-high)"
+  role="alert"
+>
+  <span>{{ message() }}</span>
+  <button
+    type="button"
+    class="shrink-0 font-semibold underline underline-offset-2"
+    (click)="retry.emit()"
+  >
+    Tentar novamente
+  </button>
+</div>

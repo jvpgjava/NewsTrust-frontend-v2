@@ -1,0 +1,44 @@
+<div class="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-4 sm:py-8">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-8 text-center sm:mb-12">
+      <div class="mb-2 inline-flex items-center justify-center rounded-full bg-brand/10 p-4">
+        <app-icon name="search" [size]="40" class="text-brand" />
+      </div>
+      <h1 class="mb-2 bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-2xl font-bold text-transparent sm:mb-4 sm:text-3xl lg:text-4xl">
+        Análise de Notícias
+      </h1>
+      <p class="mx-auto max-w-2xl px-4 text-base text-slate-600 sm:text-lg lg:text-xl">
+        Verifique a credibilidade de fontes e o conteúdo de notícias
+      </p>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl sm:rounded-2xl">
+      <div class="bg-gradient-to-r from-slate-50 to-blue-50 p-1 sm:p-2">
+        <nav class="flex gap-1 rounded-lg bg-white p-1 shadow-sm sm:rounded-xl" role="tablist" aria-label="Tipo de análise">
+          <a
+            routerLink="content"
+            routerLinkActive="bg-gradient-to-r from-brand to-brand-dark text-white shadow-lg scale-105"
+            role="tab"
+            class="flex flex-1 items-center justify-center rounded-lg px-3 py-3 text-xs font-semibold text-slate-600 transition-all duration-300 hover:bg-slate-50 hover:text-slate-800 sm:px-6 sm:py-4 sm:text-sm"
+          >
+            <app-icon name="search" [size]="18" class="mr-2 sm:mr-3" />
+            Análise de Conteúdo
+          </a>
+          <a
+            routerLink="source"
+            routerLinkActive="bg-gradient-to-r from-brand to-brand-dark text-white shadow-lg scale-105"
+            role="tab"
+            class="flex flex-1 items-center justify-center rounded-lg px-3 py-3 text-xs font-semibold text-slate-600 transition-all duration-300 hover:bg-slate-50 hover:text-slate-800 sm:px-6 sm:py-4 sm:text-sm"
+          >
+            <app-icon name="globe" [size]="18" class="mr-2 sm:mr-3" />
+            Análise de Fonte
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 sm:p-6 lg:p-8">
+        <router-outlet />
+      </div>
+    </div>
+  </div>
+</div>

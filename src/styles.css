@@ -1,3 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+/*
+ * Paleta de faixas de risco. O backend (CredibilityScoreCalculator) so conhece
+ * TRES faixas - LOW_RISK (S>=70), ATTENTION (40<=S<70), HIGH_RISK (S<40) - por
+ * isso usamos 3 cores, nao as 4 do frontend antigo (que vinha de um modelo de
+ * score 0-1 com limiares diferentes). Verde/amarelo/vermelho e o mapeamento mais
+ * direto e continua legivel para daltonismo de vermelho-verde quando combinado
+ * com o icone/label textual (nunca so a cor).
+ */
+@theme {
+  --color-risk-low: #10b981;
+  --color-risk-low-bg: #d1fae5;
+  --color-risk-low-fg: #065f46;
+
+  --color-risk-attention: #f59e0b;
+  --color-risk-attention-bg: #fef3c7;
+  --color-risk-attention-fg: #92400e;
+
+  --color-risk-high: #ef4444;
+  --color-risk-high-bg: #fee2e2;
+  --color-risk-high-fg: #991b1b;
+
+  --color-brand: #2563eb;
+  --color-brand-dark: #1e40af;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}

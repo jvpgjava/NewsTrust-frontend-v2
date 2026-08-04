@@ -1,0 +1,34 @@
+<div class="overflow-hidden rounded-xl border border-slate-200 shadow-lg">
+  <div class="flex items-center justify-between border-b border-slate-200 bg-gradient-to-r from-emerald-50 to-blue-50 px-4 py-3 sm:px-6 sm:py-4">
+    <h3 class="flex items-center text-base font-semibold text-slate-900 sm:text-lg">
+      <app-icon name="check-circle" [size]="18" class="mr-2 text-emerald-600" />
+      Resultado da Análise
+    </h3>
+    <app-risk-badge [riskLevel]="result().score.riskLevel" />
+  </div>
+
+  <div class="space-y-4 p-4 sm:space-y-6 sm:p-6">
+    <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
+      <span class="text-xs font-medium text-slate-500 sm:text-sm">Score de credibilidade</span>
+      <p class="mt-2 text-3xl font-bold tabular-nums text-slate-900 sm:mt-3 sm:text-4xl">
+        {{ result().score.value | number: '1.0-1' }}<span class="text-lg text-slate-400 sm:text-xl">/100</span>
+      </p>
+    </div>
+
+    <app-credibility-breakdown [factors]="result().score.factors" [reasons]="result().score.reasons" />
+
+    @if (result().score.aiExplanations.length > 0) {
+      <div class="rounded-xl border border-brand/20 bg-gradient-to-br from-blue-50 to-indigo-100 p-3 sm:p-4">
+        <h4 class="mb-2 flex items-center text-sm font-semibold text-slate-900 sm:mb-3 sm:text-base">
+          <app-icon name="target" [size]="16" class="mr-2 text-brand" />
+          Análise gerada por IA
+        </h4>
+        <ul class="space-y-2">
+          @for (explanation of result().score.aiExplanations; track explanation) {
+            <li class="rounded-lg bg-white/60 px-3 py-2 text-sm text-slate-700">{{ explanation }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</div>

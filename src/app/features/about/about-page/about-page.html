@@ -1,0 +1,89 @@
+<section class="bg-gradient-to-b from-brand/5 to-slate-50 pb-2 pt-8 sm:pt-12">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.12em] text-brand">Projeto</p>
+    <h1 class="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">Sobre o NewsTrust</h1>
+    <p class="mt-4 text-sm leading-relaxed text-slate-600 md:text-base">
+      O NewsTrust foi desenvolvido para combater a desinformação e fake news, oferecendo uma ferramenta confiável de
+      verificação de notícias. Combina heurísticas linguísticas, inteligência artificial e análise de rede de
+      confiança para calcular um score de credibilidade explicável, decomposto em quatro fatores auditáveis.
+    </p>
+  </div>
+</section>
+
+<div class="mx-auto max-w-4xl space-y-12 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+  <!-- Como funciona: quatro fatores do score -->
+  <div>
+    <h2 class="mb-4 text-xl font-bold text-slate-900">Como Funciona</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      @for (pillar of pillars; track pillar.titulo) {
+        <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 font-bold text-brand">
+            {{ pillar.num }}
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">{{ pillar.titulo }}</h3>
+          <p class="mt-2 text-sm text-slate-600">{{ pillar.descricao }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Missão e visão -->
+  <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <h2 class="text-xl font-bold text-slate-900">Nossa Missão</h2>
+    <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+      Promover a transparência e a veracidade na informação, ajudando usuários a tomar decisões baseadas em fatos
+      verificados.
+    </p>
+    <h2 class="mt-8 text-xl font-bold text-slate-900">Nossa Visão</h2>
+    <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+      Um futuro onde a informação confiável seja acessível a todos, onde a desinformação não tenha espaço para se
+      propagar, e onde cada cidadão possa tomar decisões informadas baseadas em fatos verificados.
+    </p>
+  </div>
+
+  <!-- Valores: timeline vertical -->
+  <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <h2 class="text-xl font-bold text-slate-900">Nossos Valores</h2>
+    <ul class="mt-6 space-y-4 border-l-2 border-brand/30 pl-6">
+      @for (value of values; track value.titulo) {
+        <li>
+          <span class="text-sm font-bold text-brand">{{ value.num }} — {{ value.titulo }}</span>
+          <p class="mt-1 text-sm text-slate-600">{{ value.descricao }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Equipe -->
+  <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <h2 class="text-xl font-bold text-slate-900">Desenvolvido e Pensado Por</h2>
+    <div class="mt-6 space-y-3">
+      @for (member of team; track member.name) {
+        <div class="flex items-center gap-4">
+          <span class="text-sm text-slate-700">{{ member.name }}</span>
+          <a
+            [href]="member.linkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
+          >
+            Sobre
+          </a>
+        </div>
+      }
+    </div>
+
+    <h2 class="mt-10 text-xl font-bold text-slate-900">Orientado Por</h2>
+    <div class="mt-6 flex items-center gap-4">
+      <span class="text-sm text-slate-700">{{ advisor.name }}</span>
+      <a
+        [href]="advisor.linkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-md bg-brand px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
+      >
+        Sobre
+      </a>
+    </div>
+  </div>
+</div>

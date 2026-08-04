@@ -1,59 +1,62 @@
-# NewstrustFrontend
+# NewsTrust Frontend (Angular / Signals)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.8.
+Frontend do NewsTrust — análise de credibilidade de notícias e fontes digitais. Reescrita em
+Angular 22 (standalone, zoneless, Signals), substituindo a versão anterior em Next.js/React.
 
-## Development server
+## Stack
 
-To start a local development server, run:
+- **Angular 22**, standalone components, **zoneless** change detection
+- **Signals** (`signal()`/`computed()`/`effect()`) como mecanismo primário de estado
+- **Tailwind CSS v4** (CSS-first, `@theme` em `src/styles.css`)
+- **Vitest** para testes unitários (padrão do Angular CLI nesta versão)
+- **D3.js** para o grafo de credibilidade interativo (força-dirigida, zoom/pan, drag)
+- **Server-Sent Events** (`EventSource`) para atualização em tempo real do grafo
 
-```bash
-ng serve
+## Estrutura
+
+```
+src/app
+├── core            # Layout raiz, interceptor HTTP, cliente SSE
+├── shared          # Modelos TypeScript (espelham os DTOs do backend) e UI reutilizável
+└── features
+    ├── content-analysis   # Análise de conteúdo de notícia
+    ├── source-analysis    # Análise de credibilidade de fonte (URL)
+    └── trust-graph        # Rede de fontes / rede de notícias (D3 + SSE)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Cada feature tem seu próprio service de API, DTOs e componentes — nada de pastas genéricas
+`services/`/`components/` soltas na raiz.
 
-## Code scaffolding
+## Rodando localmente
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```powershell
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abre em `http://localhost:4200`, apontando por padrão para `http://localhost:8080/api`
+(`src/environments/environment.ts`) — suba o [NewsTrustV2-backend](../NewsTrustV2-backend) local
+antes de testar as telas.
 
-```bash
-ng generate --help
+## Testes
+
+```powershell
+npm test
 ```
 
-## Building
+## Build de produção
 
-To build the project run:
-
-```bash
-ng build
+```powershell
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Gera `dist/newstrust-frontend/browser/` — arquivos estáticos prontos para serem servidos pelo
+Nginx (sem servidor Node, sem SSR). O `apiBaseUrl` de produção é relativo (`/api`): o mesmo build
+funciona em qualquer ambiente, desde que o Nginx daquele domínio faça proxy de `/api/*` para o
+backend correto (ver guia de deploy).
 
-## Running unit tests
+## Deploy
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Sem Docker — build estático + Nginx + Jenkins, na mesma VPS do backend. Guia completo, incluindo
+os dois ambientes (produção e dev/homolog):
+[`NewsTrustV2-backend/docs/DEPLOY.md`](../NewsTrustV2-backend/docs/DEPLOY.md).

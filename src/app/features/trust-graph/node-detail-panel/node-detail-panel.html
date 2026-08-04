@@ -1,0 +1,43 @@
+<aside class="w-full max-w-sm shrink-0 space-y-4 rounded-xl bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-2">
+    <h2 class="text-lg font-semibold text-slate-900">{{ node().label }}</h2>
+    <button
+      type="button"
+      (click)="close.emit()"
+      aria-label="Fechar detalhes"
+      class="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+    >
+      <app-icon name="x" [size]="18" />
+    </button>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <span class="text-2xl font-bold tabular-nums text-slate-900">{{ node().credibilityScore | number: '1.0-1' }}</span>
+    <app-risk-badge [riskLevel]="node().riskLevel" />
+  </div>
+
+  @if (sourceUrl(); as url) {
+    <p class="truncate text-sm text-slate-500">
+      <a [href]="url" target="_blank" rel="noopener" class="text-brand hover:underline">{{ url }}</a>
+    </p>
+  }
+  @if (reputationCategory(); as category) {
+    <p class="text-sm capitalize text-slate-600">Categoria: {{ category }}</p>
+  }
+
+  @if (detail(); as d) {
+    <p class="line-clamp-4 text-sm text-slate-600">{{ d.content }}</p>
+    <app-credibility-breakdown [factors]="d.score.factors" [reasons]="d.score.reasons" />
+
+    @if (d.connections.length > 0) {
+      <div>
+        <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">Conexões</h3>
+        <ul class="space-y-1 text-sm text-slate-600">
+          @for (connection of d.connections; track connection.source + connection.target) {
+            <li>{{ connection.target }} — similaridade {{ connection.weight | number: '1.0-2' }}</li>
+          }
+        </ul>
+      </div>
+    }
+  }
+</aside>

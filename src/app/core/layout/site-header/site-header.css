@@ -1,0 +1,23 @@
+/* Sublinhado deslizante no hover/ativo, no mesmo estilo do header do Mediar. */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.125rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}

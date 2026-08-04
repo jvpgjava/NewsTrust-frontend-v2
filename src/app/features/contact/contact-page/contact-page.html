@@ -1,0 +1,116 @@
+<div class="mx-auto max-w-3xl space-y-6 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div class="rounded-xl bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+    <h2 class="mb-4 text-xl font-semibold text-slate-900 sm:text-2xl">Entre em Contato</h2>
+    <p class="mb-6 leading-relaxed text-slate-600">
+      Tem dúvidas sobre o sistema ou sugestões de melhoria? Entre em contato conosco!
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4 sm:space-y-6" novalidate>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+        <div>
+          <label for="contact-name" class="mb-2 block text-sm font-medium text-slate-700 sm:mb-3 sm:text-base">
+            Nome
+          </label>
+          <input
+            id="contact-name"
+            type="text"
+            formControlName="name"
+            placeholder="Seu nome"
+            class="w-full rounded-lg border px-3 py-2.5 text-sm transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none sm:px-4 sm:py-3 sm:text-base"
+            [class.border-red-500]="form.controls.name.invalid && form.controls.name.touched"
+            [class.border-slate-300]="!(form.controls.name.invalid && form.controls.name.touched)"
+          />
+          @if (form.controls.name.invalid && form.controls.name.touched) {
+            <p class="mt-1 text-sm font-medium text-red-500">Este campo é obrigatório</p>
+          }
+        </div>
+
+        <div>
+          <label for="contact-email" class="mb-2 block text-sm font-medium text-slate-700 sm:mb-3 sm:text-base">
+            Email
+          </label>
+          <input
+            id="contact-email"
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+            class="w-full rounded-lg border px-3 py-2.5 text-sm transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none sm:px-4 sm:py-3 sm:text-base"
+            [class.border-red-500]="
+              (form.controls.email.invalid || emailDomainInvalid) && form.controls.email.touched
+            "
+            [class.border-slate-300]="
+              !((form.controls.email.invalid || emailDomainInvalid) && form.controls.email.touched)
+            "
+          />
+          @if (form.controls.email.invalid && form.controls.email.touched) {
+            <p class="mt-1 text-sm font-medium text-red-500">Este campo é obrigatório</p>
+          }
+          @if (!form.controls.email.invalid && emailDomainInvalid && form.controls.email.touched) {
+            <div class="mt-1">
+              <p class="text-sm font-medium text-red-500">Use um provedor confiável. Recomendamos:</p>
+              <div class="mt-1 flex flex-wrap gap-1">
+                @for (domain of emailDomainSuggestions(); track domain) {
+                  <span
+                    (click)="applySuggestedDomain(domain)"
+                    class="cursor-pointer rounded px-2 py-1 text-xs transition-colors"
+                    [class]="
+                      isMainProvider(domain) ? 'bg-emerald-100 text-emerald-700 font-semibold' : 'bg-brand/10 text-brand'
+                    "
+                  >
+                    {{ domain }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label for="contact-message" class="mb-2 block text-sm font-medium text-slate-700 sm:mb-3 sm:text-base">
+          Mensagem
+        </label>
+        <textarea
+          id="contact-message"
+          rows="4"
+          formControlName="message"
+          placeholder="Sua mensagem aqui..."
+          class="w-full resize-none rounded-lg border px-3 py-2.5 text-sm transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none sm:px-4 sm:py-3 sm:text-base"
+          [class.border-red-500]="form.controls.message.invalid && form.controls.message.touched"
+          [class.border-slate-300]="!(form.controls.message.invalid && form.controls.message.touched)"
+        ></textarea>
+        @if (form.controls.message.invalid && form.controls.message.touched) {
+          <p class="mt-1 text-sm font-medium text-red-500">Este campo é obrigatório</p>
+        }
+      </div>
+
+      <div class="flex justify-start">
+        <button
+          type="submit"
+          class="rounded-lg bg-brand px-6 py-2.5 text-sm font-medium text-white shadow-md transition-all duration-300 hover:bg-brand-dark hover:shadow-lg sm:px-8 sm:py-3 sm:text-base"
+        >
+          Enviar Mensagem
+        </button>
+      </div>
+    </form>
+  </div>
+
+  @if (submitted()) {
+    <div class="rounded-xl border border-emerald-200 bg-white p-6 text-center shadow-sm sm:p-8">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
+        <app-icon name="check-circle" [size]="32" class="text-emerald-600" />
+      </div>
+      <h4 class="mb-2 text-xl font-semibold text-slate-900">Obrigado pelo seu contato!</h4>
+      <p class="mb-6 leading-relaxed text-slate-600">
+        Recebemos sua mensagem. Sua opinião é muito importante para nós!
+      </p>
+      <button
+        type="button"
+        (click)="closeSuccess()"
+        class="w-full rounded-lg bg-brand px-6 py-3 font-medium text-white shadow-md transition-all duration-300 hover:bg-brand-dark hover:shadow-lg sm:w-auto"
+      >
+        Fechar
+      </button>
+    </div>
+  }
+</div>
